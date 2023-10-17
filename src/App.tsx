@@ -7,11 +7,17 @@ import Login from "./routes/login";
 import Join from "./routes/join";
 import Loading from "./components/loading";
 import { auth } from "./firebase";
+import ProtectedRoute from "./components/protectedroute";
+import Resetpassword from "./routes/resetpassword";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/",
@@ -27,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/join",
     element: <Join />,
+  },
+  {
+    path: "/resetpassword",
+    element: <Resetpassword />,
   },
 ]);
 
