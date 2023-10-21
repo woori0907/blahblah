@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul,
+li {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap");
+}
+
+@layer components {
+  .menu-item {
+    @apply cursor-pointer flex items-center flex-row text-xl font-bold p-3.5 rounded-full hover:bg-gray-50;
+  }
+  .menu-item a {
+    @apply flex;
+  }
+
+  .menu-item span {
+    @apply ml-5 mr-4;
+  }
+  .menu-item svg {
+    @apply w-8;
+  }
+  .menu-item div {
+    @apply w-9 rounded-full overflow-hidden;
+  }
+  .menu-item:hover svg {
+    @apply stroke-sky-400 stroke-2;
+  }
+  .menu-item:hover span {
+    @apply text-sky-400 font-extrabold;
+  }
+}
