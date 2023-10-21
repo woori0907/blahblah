@@ -52,7 +52,11 @@ function App() {
     init();
   }, []);
 
-  return <>{isLoading ? <Loading /> : <RouterProvider router={router} />}</>;
+  return (
+    <section className="flex flex-row h-screen w-screen p-8 bg-gray-100">
+      {isLoading ? <Loading /> : <RouterProvider router={router} />}
+    </section>
+  );
 }
 
 export default App;
