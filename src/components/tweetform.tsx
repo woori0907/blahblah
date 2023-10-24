@@ -83,7 +83,7 @@ export default function Tweetform() {
           name="tweet"
           maxLength={200}
           id=""
-          rows={5}
+          rows={3}
           placeholder="무슨 일이 일어나고 있나요?"
         ></textarea>
         <div className="w-full h-px bg-gray-200 my-5"></div>
@@ -114,7 +114,7 @@ export default function Tweetform() {
             onChange={onFileChange}
             name="photo"
             id="photo"
-            accept="image/*"
+            accept=".jpg, .png, .gif"
           />
           <input
             type="submit"

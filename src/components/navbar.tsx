@@ -11,9 +11,9 @@ export default function Navbar() {
     navigate("/login");
   };
   return (
-    <nav className="w-full basis-1/5 bg-white rounded-xl p-5 flex flex-col gap-7 shadow-lg">
+    <nav className="w-full basis-1/5 bg-white rounded-xl py-10 px-6 flex flex-col gap-7 shadow-lg">
       <Link to="/">
-        <h1 className="text-4xl font-black font-logo">BlahBlah</h1>
+        <h1 className="text-4xl font-black font-logo px-3.5">BlahBlah</h1>
       </Link>
       <div className="flex flex-col h-full justify-between	">
         <div>
