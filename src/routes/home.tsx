@@ -6,7 +6,6 @@ import Tweetform from "../components/tweetform";
 import Timeline from "../components/timeline";
 
 export default function Home() {
-  console.log(auth.currentUser);
   return (
     <div className="w-full basis-3/5 bg-white rounded-xl p-5 shadow-lg overflow-y-hidden flex flex-col">
       <Tweetform />

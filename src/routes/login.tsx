@@ -19,6 +19,7 @@ export default function Login() {
   const handleLogin = async () => {
     await signInWithPopup(auth, provider)
       .then((result) => {
+        console.log(result);
         navigate("/");
       })
       .catch((error) => {

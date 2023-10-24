@@ -9,6 +9,8 @@ import Loading from "./components/loading";
 import { auth } from "./firebase";
 import ProtectedRoute from "./components/protectedroute";
 import Resetpassword from "./routes/resetpassword";
+import Users from "./routes/users";
+import Search from "./routes/search";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/:id",
+        element: <Users />,
+      },
+      {
+        path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
     ],
   },
