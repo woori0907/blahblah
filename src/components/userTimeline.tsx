@@ -1,6 +1,11 @@
+import React, { useEffect, useState } from "react";
+import Tweet from "./tweet";
+import { auth, db } from "../firebase";
+import { ITweet } from "./timeline";
+import { Unsubscribe } from "firebase/auth";
 import {
   collection,
-  collectionGroup,
+  documentId,
   getDocs,
   limit,
   onSnapshot,
@@ -8,53 +13,44 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { auth, db } from "../firebase";
-import Tweet from "./tweet";
-import { Unsubscribe } from "firebase/auth";
+type UserProps = {
+  userId: string | undefined;
+};
 
-export interface ITweet {
-  id: string;
-  pic: string;
-  tweet: string;
-  userId: string;
-  username: string;
-  createdAt: number;
-  liked: number;
-}
-
-export default function Timeline() {
+export default function UserTimeline({ userId }: UserProps) {
   const user = auth.currentUser;
   const [tweets, setTweet] = useState<ITweet[]>([]);
   const [isAllTweet, setIsAllTweet] = useState(true);
   const toggleTab = (state: boolean) => {
     setIsAllTweet(state);
+    console.log(tweets.length);
   };
-
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
     const fetchTweets = async () => {
       let tweetQuery;
-      let followList = [];
+      let likedList = [];
       if (isAllTweet) {
         tweetQuery = query(
           collection(db, "tweets"),
+          where("userId", "==", userId),
           orderBy("createdAt", "desc"),
           limit(25)
         );
       } else {
-        const followQuery = query(
-          collection(db, `follows/${user?.uid}/followList`)
-        );
-        const snapShot = await getDocs(followQuery);
-        followList = snapShot.docs.map((doc) => {
+        const likedQuery = query(collection(db, `Liked/${userId}/tweet`));
+
+        const snapShot = await getDocs(likedQuery);
+        likedList = snapShot.docs.map((doc) => {
           return doc.id;
         });
-        0;
-
+        if (likedList.length === 0) {
+          setTweet([]);
+          return;
+        }
         tweetQuery = query(
           collection(db, "tweets"),
-          where("userId", "in", followList),
+          where(documentId(), "in", likedList),
           orderBy("createdAt", "desc"),
           limit(25)
         );
@@ -82,8 +78,8 @@ export default function Timeline() {
     };
   }, [isAllTweet]);
   return (
-    <section className="overflow-y-scroll h-full">
-      <section className="flex w-full">
+    <section className=" h-full">
+      <section className="flex w-full mb-4">
         <div
           className={
             "cursor-pointer py-4 basis-1/2 text-center hover:bg-gray-200 " +
@@ -91,7 +87,7 @@ export default function Timeline() {
           }
           onClick={() => toggleTab(true)}
         >
-          추천
+          게시글
         </div>
         <div
           className={
@@ -100,12 +96,14 @@ export default function Timeline() {
           }
           onClick={() => toggleTab(false)}
         >
-          팔로우
+          마음에 들어요
         </div>
       </section>
-      {tweets.map((tweet) => (
-        <Tweet key={tweet.id} {...tweet} />
-      ))}
+      {tweets.length > 0 ? (
+        tweets.map((tweet) => <Tweet key={tweet.id} {...tweet} />)
+      ) : (
+        <></>
+      )}
     </section>
   );
 }

@@ -42,4 +42,12 @@ a {
   .menu-item:hover span {
     @apply text-sky-400 font-extrabold;
   }
+
+  .modal {
+    @apply absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4  flex flex-col justify-center items-center w-1/3 h-2/3 bg-white rounded-xl p-8;
+  }
+
+  .select-line {
+    @apply border-4 border-b-sky-400 border-x-0 border-t-0 font-bold text-sky-400;
+  }
 }

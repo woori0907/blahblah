@@ -8,6 +8,11 @@ export default function ProtectedRoute({
   children: React.ReactNode;
 }) {
   const user = auth.currentUser;
+  console.log(user?.providerData[0].providerId);
+
+  if (user?.providerData[0].providerId === "github.com") {
+    return children;
+  }
   if (user === null || user.emailVerified === false) {
     return <Navigate to="/login" />;
   }

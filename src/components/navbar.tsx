@@ -5,6 +5,7 @@ import { auth } from "../firebase";
 export default function Navbar() {
   const navigate = useNavigate();
   const user = auth.currentUser;
+  const searchKey = "";
 
   const handleLogout = async () => {
     await auth.signOut();
@@ -38,7 +39,7 @@ export default function Navbar() {
           </div>
 
           <div className="menu-item">
-            <Link to="/search">
+            <Link to="/search" state={{ searchKey }}>
               <svg
                 fill="none"
                 stroke="currentColor"

@@ -40,10 +40,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/login", element: <Login /> },
-  {
-    path: "/join",
-    element: <Join />,
-  },
+
   {
     path: "/resetpassword",
     element: <Resetpassword />,
@@ -63,7 +60,7 @@ function App() {
   }, []);
 
   return (
-    <section className="flex flex-row h-screen w-screen p-8 bg-gray-100">
+    <section className="flex flex-row h-screen w-screen bg-gray-100 relative">
       {isLoading ? <Loading /> : <RouterProvider router={router} />}
     </section>
   );

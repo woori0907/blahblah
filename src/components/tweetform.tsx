@@ -29,6 +29,7 @@ export default function Tweetform() {
       const doc = await addDoc(collection(db, "tweets"), {
         tweet,
         createdAt: Date.now(),
+        liked: 0,
         username: user.displayName || "Anonymous",
         userId: user.uid,
       });

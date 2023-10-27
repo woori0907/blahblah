@@ -17,6 +17,7 @@ import {
 import { ITweet } from "../components/timeline";
 import Tweet from "../components/tweet";
 import { useLocation } from "react-router-dom";
+import UserTimeline from "../components/userTimeline";
 
 export default function Users() {
   const user = auth.currentUser;
@@ -34,8 +35,8 @@ export default function Users() {
     );
     const snapshot = await getDocs(tweetQuery);
     const tweets = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, pic } = doc.data();
-      return { tweet, createdAt, userId, username, pic, id: doc.id };
+      const { tweet, createdAt, userId, username, pic, liked } = doc.data();
+      return { tweet, createdAt, userId, username, pic, id: doc.id, liked };
     });
     setTweets(tweets);
   };
@@ -72,35 +73,50 @@ export default function Users() {
 
   return (
     <section className="w-full basis-3/5 bg-white rounded-xl p-5 shadow-lg overflow-y-hidden flex flex-col">
-      <section>
-        <div className="w-8 h-8">
-          {profilePic ? (
-            <img src={profilePic} alt="" />
-          ) : (
-            <svg
-              className="stroke-sky-400"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
+      <section className="flex flex-col gap-3  py-7 px-5">
+        <div className="flex justify-between items-baseline">
+          <div className="w-28 rounded-full overflow-hidden">
+            {profilePic ? (
+              <img src={profilePic} alt="" />
+            ) : (
+              <svg
+                className="stroke-sky-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            )}
+          </div>
+
+          {isFollow ? (
+            <button
+              className="py-1 px-5 border-2 border-sky-400 bg-sky-400 h-12 rounded-full text-white font-bold hover:bg-sky-400 hover:text-white hover:content-['언팔로우']"
+              onClick={toggleFollowState}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
+              팔로잉
+            </button>
+          ) : (
+            <button
+              className="py-1 px-5 border-2 border-sky-400 h-12 rounded-full text-sky-400 font-bold hover:bg-sky-400 hover:text-white"
+              onClick={toggleFollowState}
+            >
+              팔로우
+            </button>
           )}
         </div>
-        <span>{state.username ?? "Anonymous"}</span>
-        <div onClick={toggleFollowState}>{isFollow ? "팔로잉" : "팔로우"}</div>
+        <h1 className="font-bold text-2xl">{state.username ?? "Anonymous"}</h1>
       </section>
       <section className="overflow-y-scroll h-full">
-        {tweets.map((tweet) => (
-          <Tweet key={tweet.id} {...tweet} />
-        ))}
+        <UserTimeline userId={state.userId} />
       </section>
     </section>
   );
